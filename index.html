@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vistara 2026, Siddhartha Academy of Higher Education</title>
+    <meta
+      name="description"
+      content="Register for Vistara, the two-day fest by the ACM Student Chapter at Siddhartha Academy of Higher Education, 16 and 17 October 2026. Technical, non-technical and Craft 24 events, plus the INFUSION26 hackathon."
+    />
+    <meta name="theme-color" content="#05070d" />
+    <link rel="icon" href="favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script type="module" src="js/home.js"></script>
+  </head>
+  <body data-page="home">
+    <!-- Kinetic grid background (js/ui/kinetic-grid.js) -->
+    <canvas id="grid" class="bg-canvas bg-grid" aria-hidden="true"></canvas>
+
+    <header class="site-header" id="site-nav"></header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="container hero-inner">
+          <p class="hero-org rise" id="hero-org" style="--d: 0.05s"></p>
+
+          <h1 class="wordmark" id="hero-title" aria-label="VISTARA">
+            <span aria-hidden="true" style="--i: 0">V</span><span aria-hidden="true" style="--i: 1">I</span><span aria-hidden="true" style="--i: 2">S</span><span aria-hidden="true" style="--i: 3">T</span><span aria-hidden="true" style="--i: 4">A</span><span aria-hidden="true" style="--i: 5">R</span><span aria-hidden="true" style="--i: 6">A</span>
+          </h1>
+
+          <p class="tagline rise" id="tagline" style="--d: 0.75s"></p>
+
+          <dl class="facts rise" id="facts" style="--d: 0.9s"></dl>
+
+          <div class="hero-ctas rise" style="--d: 1.05s">
+            <a class="metal-btn btn-xl" href="#days">Choose your day</a>
+            <a class="metal-btn metal-btn--secondary btn-xl" href="#infusion26">INFUSION26 hackathon</a>
+          </div>
+        </div>
+        <a class="scroll-hint rise" href="#days" aria-label="Scroll to the days" style="--d: 1.6s">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14" /><path d="m19 12-7 7-7-7" /></svg>
+        </a>
+      </section>
+
+      <section class="section" id="days" aria-labelledby="days-title">
+        <div class="container">
+          <div class="reveal">
+            <h2 class="section-title" id="days-title">Pick a day to register</h2>
+            <p class="lead">
+              Each day has solo events, group events and Craft 24. Pick one or two solo events, one or two group events, or
+              as many Craft 24 events as you like. Each category is registered and paid for separately.
+            </p>
+          </div>
+          <div class="day-grid" id="day-grid"></div>
+        </div>
+      </section>
+
+      <section class="section hack" id="infusion26" aria-labelledby="hack-name">
+        <div class="container hack-grid">
+          <div class="reveal">
+            <p class="eyebrow">Flagship hackathon</p>
+            <h2 class="hack-title" id="hack-name"></h2>
+            <p class="hack-tagline" id="hack-tagline"></p>
+            <p class="hack-summary" id="hack-summary"></p>
+            <dl class="hack-facts" id="hack-facts"></dl>
+            <p class="glass-note" id="hack-note"></p>
+            <div class="hack-cta" id="hack-cta"></div>
+          </div>
+          <div class="timeline-card glass reveal">
+            <h3>How it works</h3>
+            <ol class="timeline" id="timeline"></ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact" aria-labelledby="contact-title">
+        <div class="container">
+          <div class="reveal">
+            <h2 class="section-title" id="contact-title">Questions? Call us</h2>
+            <p class="lead">For anything about events, payments or the hackathon, reach the organizing team.</p>
+          </div>
+          <ul class="contacts" id="contacts"></ul>
+          <p class="footer-note" id="footer-note"></p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
