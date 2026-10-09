@@ -28,6 +28,7 @@ import {
   priceSelection,
   qrFor,
   sanitizeSelections,
+  tierOf,
   toggleEvent,
   upiLink,
   validateDetails,
@@ -358,10 +359,22 @@ function updateTray() {
 
   let tier;
   if (b === "solo" || b === "group") {
-    const t = TIER_PRICES[b];
-    tier = `${[1, 2]
-      .map((n) => `<span class="${ids.length === n ? "is-current" : ""}">${n} event${n > 1 ? "s" : ""} ${formatINR(t[n])}</span>`)
-      .join(" · ")} ${b === "group" ? "per team" : "per person"}`;
+    // Events in one bucket can be priced differently (e.g. Rubik's Cube vs the
+    // technical solo events), so show the tier of what's picked, else of the
+    // event at the front of the wheel, else the bucket's only tier.
+    const inBucket = events.filter((e) => bucketOf(e) === b);
+    const frontEvent = front.open && bucketOf(events[front.index]) === b ? events[front.index] : null;
+    const name = ids.length
+      ? tierOf(ids.map((id) => EVENTS_BY_ID[id]))
+      : frontEvent
+        ? frontEvent.pricing.tier
+        : tierOf(inBucket);
+    const t = TIER_PRICES[name];
+    tier = t
+      ? `${[1, 2]
+          .map((n) => `<span class="${ids.length === n ? "is-current" : ""}">${n} event${n > 1 ? "s" : ""} ${formatINR(t[n])}</span>`)
+          .join(" · ")} ${b === "group" ? "per team" : "per person"}`
+      : "Prices depend on the event; each event shows its price.";
   } else {
     tier = ids.length
       ? `<span class="tabular">${ids.map((id) => `${esc(EVENTS_BY_ID[id].name)} ${formatINR(EVENTS_BY_ID[id].pricing.amount)}`).join(" + ")}</span>`
@@ -540,7 +553,7 @@ function renderDetails() {
 
 function renderPayment() {
   const c = checkout();
-  const qr = qrFor(c.amount);
+  const qr = qrFor(c.kind, c.price?.ok ? c.price.events : [], c.amount);
   const payLink = upiLink(c.amount, `Vistara ${c.forWhat}`.slice(0, 60));
 
   flowEl.innerHTML = `
@@ -556,7 +569,7 @@ function renderPayment() {
             <p class="pay-for">${esc(c.forWhat)}</p>
             ${
               qr
-                ? `<img class="qr" src="${esc(qr)}" alt="UPI QR code for ${formatINR(c.amount)}" width="220" height="220">`
+                ? `<img class="qr" src="${esc(qr)}" alt="UPI QR code for ${formatINR(c.amount)}" width="240" height="333">`
                 : `<p class="error" style="margin-top:1.25rem">The QR code for this amount is missing. Contact the organizers.</p>`
             }
             <p class="hint">Scan with any UPI app. On this phone, take a screenshot of the QR and choose it from your UPI app's scanner.</p>

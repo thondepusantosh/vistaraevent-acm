@@ -344,6 +344,12 @@ body::after {
   inset: 0;
   z-index: -2;
   overflow: hidden;
+  /* Some browsers (Safari especially) don't clip a WebGL canvas to rounded
+     corners with overflow alone, which showed the shader as a rectangle.
+     clip-path and the mask force the pill shape. */
+  clip-path: inset(0 round 999px);
+  -webkit-mask-image: radial-gradient(#fff, #fff);
+  mask-image: radial-gradient(#fff, #fff);
   opacity: 0;
   transition: opacity 0.7s;
 }
@@ -355,7 +361,8 @@ body::after {
   inset: 0;
   width: 100% !important;
   height: 100% !important;
-  border-radius: inherit;
+  border-radius: 999px !important;
+  clip-path: inset(0 round 999px);
 }
 .metal-core {
   inset: 2px;
@@ -1015,18 +1022,26 @@ a.day-card:hover {
   font-weight: 500;
   letter-spacing: 0.03em;
 }
+/* The title is sized from its column (cqi = 1% of the column's width), so
+   "INFUSION26" always fits on one line next to the "How it works" card.
+   At this weight and width the word is about 7.7× its font size. */
+.hack-copy {
+  container-type: inline-size;
+  min-width: 0;
+}
 .hack-title {
   margin-top: 0.5rem;
-  font-size: clamp(2.4rem, 9.5vw, 5.25rem);
+  font-size: min(5.25rem, 12.2cqi);
   line-height: 0.95;
   font-weight: 700;
   letter-spacing: -0.01em;
   font-variation-settings: "wdth" 125;
-}
-@media (min-width: 1024px) {
-  .hack-title {
-    font-size: clamp(3rem, 6.2vw, 5.25rem);
-  }
+  white-space: nowrap;
+  background: linear-gradient(180deg, #fff 15%, var(--frost) 60%, color-mix(in oklab, var(--ice) 75%, #fff) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 18px rgb(5 7 13 / 0.9));
 }
 .hack-tagline {
   margin-top: 1rem;
@@ -2015,14 +2030,15 @@ legend {
   font-size: 0.875rem;
   text-wrap: balance;
 }
+/* The UPI app's QR card, shown whole so the payee and amount are visible. */
 .qr {
   margin-top: 1.25rem;
   width: 100%;
-  max-width: 220px;
-  aspect-ratio: 1;
+  max-width: 240px;
+  height: auto;
   border-radius: 0.75rem;
   background: #fff;
-  padding: 0.5rem;
+  object-fit: contain;
 }
 .pay-card .hint {
   margin-top: 0.75rem;

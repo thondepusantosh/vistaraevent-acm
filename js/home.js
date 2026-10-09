@@ -97,8 +97,8 @@ function renderContacts() {
   $("#contacts").innerHTML = CONTACTS.map(
     (c) => `
     <li class="contact glass reveal">
-      <p class="contact-name">${esc(c.name)}</p>
-      <p class="contact-role">${esc(c.role)}</p>
+      <p class="contact-name">${esc(c.name || "Organizing team")}</p>
+      ${c.role ? `<p class="contact-role">${esc(c.role)}</p>` : ""}
       <a class="contact-phone tabular" href="tel:${esc(c.phone.replace(/\s/g, ""))}">${esc(c.phone)}</a>
     </li>`,
   ).join("");

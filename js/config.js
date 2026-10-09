@@ -10,7 +10,7 @@
  * site then fakes a successful registration so you can click through; on a
  * real domain it shows "Registrations aren't connected yet".
  */
-export const APPS_SCRIPT_URL = "";
+export const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbykWhtZVQJOI4AViNqXYEmpxmzoeJO9FcQrI07JXl62ajiJU0xqMGs_ImeY7GgdBqR8yg/exec";
 
 // --------------------------------------------------------------------- site
 
@@ -34,25 +34,28 @@ export const DAYS = {
 /** Flip to false to close registrations. Apps Script has its own switch too. */
 export const REGISTRATION_OPEN = { day1: true, day2: true, hackathon: true };
 
-/** Placeholders until the organizers confirm names and numbers. */
+/** Organizer phone numbers shown in the Contact section of the home page. */
 export const CONTACTS = [
-  { name: "Coordinator name", role: "Fest coordinator", phone: "+91 90000 00001" },
-  { name: "Coordinator name", role: "Events and registrations", phone: "+91 90000 00002" },
-  { name: "Coordinator name", role: "INFUSION26 hackathon", phone: "+91 90000 00003" },
+  // Add a name and role (e.g. "Events and registrations") when known; empty ones are hidden.
+  { name: "Parna Sri", role: "Coordinator", phone: "+91 77801 93618" },
+  { name: "Ipsitha", role: "Coordinator", phone: "+91 96765 83697" },
+  { name: "Teja", role: "Coordinator", phone: "+91 92463 09791" },
 ];
 
 // ------------------------------------------------------------------- prices
 
-/** Bundle prices for regular solo and group events (per participant / per team). */
+/** Bundle prices for solo and group events (per participant / per team), by tier. */
 export const TIER_PRICES = {
   solo: { 1: 150, 2: 250 },
   group: { 1: 250, 2: 350 },
+  /** Events paid to Vinanya: Rubik's Cube, Singing, Instrumental, Meme War, Dancing. */
+  cultural: { 1: 150, 2: 300 },
 };
 
 /** Most events in one solo or group registration. Craft 24 has no limit. */
 export const MAX_TIERED_EVENTS = 2;
 
-export const HACKATHON_PRICE = 300;
+export const HACKATHON_PRICE = 350;
 
 /** Team size options for regular group events (including the team leader). */
 export const GROUP_TEAM_SIZES = [2, 3];
@@ -84,15 +87,20 @@ export const HACKATHON = {
 
 /**
  * category: which list the event appears in (solo | group | craft24)
+ * pay:      which UPI account the event is paid to (a key of PAYEES). It
+ *           picks the payment QR codes; events paid to different accounts
+ *           can't share one registration.
  * mode:     whether one person or a team takes part (solo | group)
- * pricing:  { type: "tiered", tier: "solo" | "group" } priced by how many
- *           events of that tier are picked, or { type: "flat", amount }
+ * pricing:  { type: "tiered", tier: "solo" | "group" | "cultural" } priced by
+ *           how many events of that tier are picked (see TIER_PRICES), or
+ *           { type: "flat", amount }
  * image:    optional cover image path; without one a card face is drawn
  */
 export const EVENTS = [
   // ---------------------------------------------------------------- Day 1
   {
     id: "prompt-to-pixel",
+    pay: "jaya",
     name: "Prompt to Pixel",
     day: 1,
     category: "solo",
@@ -104,6 +112,7 @@ export const EVENTS = [
   },
   {
     id: "code-migration",
+    pay: "jaya",
     name: "Code Migration",
     day: 1,
     category: "solo",
@@ -115,6 +124,7 @@ export const EVENTS = [
   },
   {
     id: "no-mouse-race",
+    pay: "jaya",
     name: "No Mouse Navigation Race",
     day: 1,
     category: "solo",
@@ -126,16 +136,18 @@ export const EVENTS = [
   },
   {
     id: "rubiks-cube",
+    pay: "vinanya",
     name: "Rubik's Cube",
     day: 1,
     category: "solo",
     mode: "solo",
     blurb: "Solve a scrambled 3×3, fast.",
     description: "A speed-solving round on a scrambled 3×3 cube. Bring your own cube if you have one you trust.",
-    pricing: { type: "tiered", tier: "solo" },
+    pricing: { type: "tiered", tier: "cultural" },
   },
   {
     id: "gen-ai-tag-team",
+    pay: "jaya",
     name: "The Gen AI Tag Team",
     day: 1,
     category: "group",
@@ -147,6 +159,7 @@ export const EVENTS = [
   },
   {
     id: "domain-word-sprint",
+    pay: "jaya",
     name: "Domain Word Sprint",
     day: 1,
     category: "group",
@@ -157,7 +170,20 @@ export const EVENTS = [
     pricing: { type: "tiered", tier: "group" },
   },
   {
+    id: "elevator-pitch",
+    pay: "jaya",
+    name: "Elevator Pitch",
+    day: 1,
+    category: "group",
+    mode: "group",
+    blurb: "Sell an idea in under a minute.",
+    description:
+      "Pitch an idea to the judges in the time an elevator ride takes. Clarity and conviction count more than slides.",
+    pricing: { type: "tiered", tier: "group" },
+  },
+  {
     id: "best-shot",
+    pay: "jaya",
     name: "Best Shot",
     day: 1,
     category: "craft24",
@@ -171,47 +197,40 @@ export const EVENTS = [
   // ---------------------------------------------------------------- Day 2
   {
     id: "singing",
+    pay: "vinanya",
     name: "Singing",
     day: 2,
     category: "solo",
     mode: "solo",
     blurb: "A solo vocal performance.",
     description: "Sing a piece of your choice, in any language and any genre. Just you and the stage.",
-    pricing: { type: "tiered", tier: "solo" },
+    pricing: { type: "tiered", tier: "cultural" },
   },
   {
     id: "instrumental",
+    pay: "vinanya",
     name: "Instrumental Performance",
     day: 2,
     category: "solo",
     mode: "solo",
     blurb: "Play a solo piece on your instrument.",
     description: "Perform a solo piece on the instrument of your choice. Bring your own instrument.",
-    pricing: { type: "tiered", tier: "solo" },
+    pricing: { type: "tiered", tier: "cultural" },
   },
   {
     id: "meme-war",
+    pay: "vinanya",
     name: "Meme War",
     day: 2,
     category: "solo",
     mode: "solo",
     blurb: "Sharpest meme on the prompt wins.",
     description: "Prompts are revealed on the spot. Make the funniest, sharpest meme you can before time is up.",
-    pricing: { type: "tiered", tier: "solo" },
-  },
-  {
-    id: "elevator-pitch",
-    name: "Elevator Pitch",
-    day: 2,
-    category: "group",
-    mode: "group",
-    blurb: "Sell an idea in under a minute.",
-    description:
-      "Pitch an idea to the judges in the time an elevator ride takes. Clarity and conviction count more than slides.",
-    pricing: { type: "tiered", tier: "group" },
+    pricing: { type: "tiered", tier: "cultural" },
   },
   {
     id: "five-word-trap",
+    pay: "jaya",
     name: "The 5-Word Trap",
     day: 2,
     category: "group",
@@ -221,7 +240,19 @@ export const EVENTS = [
     pricing: { type: "tiered", tier: "group" },
   },
   {
+    id: "dancing",
+    pay: "vinanya",
+    name: "Dancing",
+    day: 2,
+    category: "group",
+    mode: "group",
+    blurb: "Take the stage as a crew.",
+    description: "A group dance performance in a style of your choice. Full rules will be shared before the fest.",
+    pricing: { type: "tiered", tier: "cultural" },
+  },
+  {
     id: "storytelling",
+    pay: "jaya",
     name: "Storytelling",
     day: 2,
     category: "craft24",
@@ -232,6 +263,7 @@ export const EVENTS = [
   },
   {
     id: "short-film",
+    pay: "jaya",
     name: "Short Film",
     day: 2,
     category: "craft24",
@@ -245,14 +277,34 @@ export const EVENTS = [
 
 // ----------------------------------------------------------------- payments
 
-/** Payment QR code per amount. Replace the placeholder files in /qr. */
-export const QR_BY_AMOUNT = {
-  150: "qr/qr-150.svg", // 1 solo event, or Best Shot
-  250: "qr/qr-250.svg", // 2 solo events, or 1 group event
-  300: "qr/qr-300.svg", // INFUSION26
-  350: "qr/qr-350.svg", // 2 group events
-  500: "qr/qr-500.svg", // Storytelling
-  700: "qr/qr-700.svg", // Short Film
+/** The UPI accounts that receive payments. Events say which one with `pay`. */
+export const PAYEES = {
+  jaya: { name: "jaya lakshmi", upi: "jaya1123@okicici" },
+  vinanya: { name: "Vinanya Dintakurthi", upi: "vinanyadintakurthi07@oksbi" },
+};
+
+/**
+ * Payment QR codes: for each account, the image for each amount it can be
+ * charged. INFUSION26 has its own entry. If an amount is missing, the
+ * payment step says "The QR code for this amount is missing"; `npm test`
+ * catches that before it goes live.
+ */
+export const QR_CODES = {
+  jaya: {
+    150: "qr/jaya-150.jpg", // 1 technical solo event, or Best Shot
+    250: "qr/jaya-250.jpg", // 2 technical solo events, or 1 group event
+    350: "qr/jaya-350.jpg", // 2 group events
+    500: "qr/jaya-500.jpg", // Storytelling
+    700: "qr/jaya-700.jpg", // Short Film
+  },
+  vinanya: {
+    150: "qr/vinanya-150.jpg", // 1 event (or Dancing, per team)
+    300: "qr/vinanya-300.jpg", // 2 events
+  },
+  // INFUSION26 is paid to Jaya.
+  hackathon: {
+    350: "qr/jaya-350.jpg",
+  },
 };
 
 /**

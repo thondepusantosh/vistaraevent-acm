@@ -6,8 +6,12 @@
 // Craft 24 group). Each is an array of event IDs that "+" toggles. Buckets
 // never affect each other: picking a solo event can't replace or lock a group
 // event, and each bucket is registered and paid for separately.
+//
+// Each event is paid to one UPI account (its `pay` field). One payment can't
+// go to two accounts, so events paid to different accounts can't share a
+// registration even within a bucket: their "+" is disabled with a note.
 
-import { EVENTS, GROUP_TEAM_SIZES, MAX_TIERED_EVENTS, QR_BY_AMOUNT, TIER_PRICES, UPI_PAYEE } from "./config.js";
+import { EVENTS, GROUP_TEAM_SIZES, MAX_TIERED_EVENTS, QR_CODES, TIER_PRICES, UPI_PAYEE } from "./config.js";
 
 export const EVENTS_BY_ID = Object.fromEntries(EVENTS.map((e) => [e.id, e]));
 
@@ -53,6 +57,13 @@ export function addState(event, selections) {
   const picked = selections[bucket];
   if (picked.includes(event.id)) return { kind: "selected" };
   if (picked.length >= bucketLimit(bucket)) return { kind: "blocked", reason: LIMIT_NOTE };
+  if (picked.some((id) => EVENTS_BY_ID[id]?.pay !== event.pay)) {
+    const names = picked.map((id) => EVENTS_BY_ID[id]?.name).filter(Boolean).join(" and ");
+    return {
+      kind: "blocked",
+      reason: `${event.name} is paid to a different UPI account than ${names}, so it's registered separately. Finish or clear ${names} first.`,
+    };
+  }
   return { kind: "available" };
 }
 
@@ -109,13 +120,18 @@ export function priceSelection(eventIds) {
   if (new Set(events.map(bucketOf)).size > 1) {
     return { ok: false, error: "Group Craft 24 events are registered separately from solo Craft 24 events." };
   }
+  if (new Set(events.map((e) => e.pay)).size > 1) {
+    return { ok: false, error: "These events are paid to different UPI accounts, so they're registered separately." };
+  }
 
   const kind = events[0].category;
   const bucket = bucketOf(events[0]);
 
   if (kind === "solo" || kind === "group") {
     if (events.length > MAX_TIERED_EVENTS) return { ok: false, error: LIMIT_NOTE };
-    return { ok: true, amount: TIER_PRICES[kind][events.length], kind, bucket, events };
+    const tier = tierOf(events);
+    if (!tier) return { ok: false, error: "These events are priced differently, so they're registered separately." };
+    return { ok: true, amount: TIER_PRICES[tier][events.length], kind, bucket, events };
   }
 
   // Craft 24: any number of events, each priced on its own.
@@ -141,12 +157,30 @@ export function priceNote(event) {
       : `${formatINR(event.pricing.amount)} per person`;
   }
   const t = TIER_PRICES[event.pricing.tier];
-  const who = event.pricing.tier === "group" ? "per team" : "per person";
+  const who = event.mode === "group" ? "per team" : "per person";
   return `${formatINR(t[1])} for one event, ${formatINR(t[2])} for two, ${who}`;
 }
 
-export function qrFor(amount) {
-  return QR_BY_AMOUNT[amount] ?? null;
+/**
+ * Which account a checkout pays, as a key of QR_CODES in config.js:
+ * "hackathon", or the shared `pay` of its events. Null if they differ, which
+ * the selection rules never allow.
+ */
+export function payeeOf(kind, events) {
+  if (kind === "hackathon") return "hackathon";
+  const accounts = new Set(events.map((e) => e.pay));
+  return accounts.size === 1 ? [...accounts][0] : null;
+}
+
+/** The price tier shared by tiered events (a key of TIER_PRICES), or null if they differ. */
+export function tierOf(events) {
+  const tiers = new Set(events.map((e) => e.pricing.tier));
+  return tiers.size === 1 && !tiers.has(undefined) ? [...tiers][0] : null;
+}
+
+/** The QR image for a checkout, or null if there isn't one. */
+export function qrFor(kind, events, amount) {
+  return QR_CODES[payeeOf(kind, events)]?.[amount] ?? null;
 }
 
 export function upiLink(amount, note) {
