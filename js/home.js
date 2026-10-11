@@ -6,6 +6,7 @@ import { BUCKET_LABEL, BUCKETS, bucketOf, eventsForDay, formatINR } from "./rule
 import { esc, icons } from "./ui/icons.js";
 import { mountKineticGrid } from "./ui/kinetic-grid.js";
 import { initMetalButtons } from "./ui/metal-button.js";
+import { mountFooter } from "./ui/footer.js";
 import { mountNav } from "./ui/nav.js";
 
 const $ = (sel) => document.querySelector(sel);
@@ -121,6 +122,7 @@ function revealOnScroll() {
 }
 
 mountNav();
+mountFooter();
 renderHero();
 renderDays();
 renderHackathon();

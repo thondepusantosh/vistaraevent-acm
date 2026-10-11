@@ -38,6 +38,7 @@ import { ImageReadError, compressImage } from "./ui/compress-image.js";
 import { esc, icons } from "./ui/icons.js";
 import { mountIceShards } from "./ui/ice-shards.js";
 import { initMetalButtons } from "./ui/metal-button.js";
+import { mountFooter } from "./ui/footer.js";
 import { mountNav } from "./ui/nav.js";
 import { WorksWheel } from "./ui/works-wheel.js";
 
@@ -893,6 +894,7 @@ document.addEventListener("click", async (e) => {
 // ------------------------------------------------------------------ start
 
 mountNav();
+mountFooter();
 document.getElementById("page-title").textContent = isDay ? DAYS[day].label : HACKATHON.name;
 document.getElementById("page-sub").innerHTML = isDay
   ? `${esc(DAYS[day].weekday)}, <span class="tabular" style="color:var(--paper)">${esc(DAYS[day].date)}</span>`

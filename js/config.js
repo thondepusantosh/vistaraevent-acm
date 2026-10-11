@@ -42,6 +42,14 @@ export const CONTACTS = [
   { name: "Teja", role: "Coordinator", phone: "+91 92463 09791" },
 ];
 
+/** Site credit in the footer of every page. Set to null to hide it. */
+export const CREDIT = {
+  name: "Santosh Sri Manvik Thondepu",
+  note: "Open to freelance",
+  phone: "+91 74162 00708",
+  linkedin: "https://www.linkedin.com/in/santosh-sri-manvik/",
+};
+
 // ------------------------------------------------------------------- prices
 
 /** Bundle prices for solo and group events (per participant / per team), by tier. */
