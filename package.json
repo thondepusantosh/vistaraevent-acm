@@ -1,0 +1,12 @@
+{
+  "name": "vistaraevent-acm",
+  "version": "1.0.0",
+  "description": "Vistara 2026 event website",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"No tests configured\" && exit 0"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.3.1"
+  }
+}
