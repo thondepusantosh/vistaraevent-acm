@@ -40,8 +40,8 @@ export const REGISTRATION_OPEN = { day1: true, day2: true, hackathon: true };
 /** Organizer phone numbers shown in the Contact section of the home page. */
 export const CONTACTS = [
   // Add a name and role (e.g. "Events and registrations") when known; empty ones are hidden.
-  { name: "Parna Sri", role: "Coordinator", phone: "+91 77801 93618" },
   { name: "Ipsitha", role: "Coordinator", phone: "+91 96765 83697" },
+  { name: "Parna Sri", role: "Coordinator", phone: "+91 77801 93618" },
   { name: "Teja", role: "Coordinator", phone: "+91 92463 09791" },
 ];
 
