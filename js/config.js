@@ -22,6 +22,9 @@ export const SITE = {
   institutionNote: "Deemed to be University",
   venue: "Siddhartha Academy of Higher Education, Vijayawada",
   venueShort: "SAHE, Vijayawada",
+  /** Google Maps directions to the campus (opens with "Your location" as the start). */
+  mapsUrl:
+    "https://www.google.com/maps/dir/?api=1&destination=SAHE-Siddhartha+Academy+of+Higher+Education-Deemed+to+be+University%2C+Kanuru%2C+Vijayawada",
   /** Shown everywhere a prize pool is mentioned. */
   prizePool: 100000,
 };
@@ -78,9 +81,11 @@ export const HACKATHON = {
     "A hackathon with real clients instead of made-up problem statements. You work on requirements from an actual client, and what you build can go further than the hackathon.",
   fee: HACKATHON_PRICE,
   teamNote: "Teams will be formed by the organizers after registration.",
-  /** Not announced yet. Replace these strings when they are. */
-  dates: "Dates to be announced",
-  venue: "Venue to be announced",
+  /** Which fest day it runs on (a key of DAYS), its hours, and the building. */
+  day: 1,
+  time: "10:00 AM to 5:00 PM",
+  venue: "VL Dutt Block",
+  /** Not announced yet. Replace when it is, or set rulesUrl to link to them. */
   rules: "Rules will be shared with registered participants.",
   rulesUrl: null,
   steps: [

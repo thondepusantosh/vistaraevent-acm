@@ -8,7 +8,7 @@
 // the other buckets' picks are still there. Progress, minus the screenshot,
 // survives a page refresh.
 
-import { APPS_SCRIPT_URL, DAYS, GROUP_TEAM_SIZES, HACKATHON, REGISTRATION_OPEN, TIER_PRICES } from "./config.js";
+import { APPS_SCRIPT_URL, DAYS, GROUP_TEAM_SIZES, HACKATHON, REGISTRATION_OPEN, SITE, TIER_PRICES } from "./config.js";
 import {
   BUCKETS,
   BUCKET_LABEL,
@@ -898,7 +898,9 @@ mountFooter();
 document.getElementById("page-title").textContent = isDay ? DAYS[day].label : HACKATHON.name;
 document.getElementById("page-sub").innerHTML = isDay
   ? `${esc(DAYS[day].weekday)}, <span class="tabular" style="color:var(--paper)">${esc(DAYS[day].date)}</span>`
-  : `${esc(HACKATHON.tagline)} <span class="tabular" style="color:var(--paper)">${formatINR(HACKATHON.fee)}</span> per person.`;
+  : `${esc(HACKATHON.tagline)} <span class="tabular" style="color:var(--paper)">${formatINR(HACKATHON.fee)}</span> per person.
+     <span class="page-sub-line tabular">${esc(DAYS[HACKATHON.day].label)}, ${esc(DAYS[HACKATHON.day].date)} · ${esc(HACKATHON.time)} · ${esc(HACKATHON.venue)}
+       <a class="dir-link" href="${esc(SITE.mapsUrl)}" target="_blank" rel="noopener noreferrer">${icons.mapPin()}Get directions${icons.arrowUpRight("icon dir-arrow")}<span class="sr-only"> on Google Maps (opens in a new tab)</span></a></span>`;
 mountIceShards(document.getElementById("shards"));
 restore();
 render();

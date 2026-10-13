@@ -19,12 +19,16 @@ function renderHero() {
   $("#tagline").setAttribute("aria-label", SITE.tagline.join(", "));
   const facts = [
     { icon: icons.calendar(), label: "Dates", value: `${DAYS[1].short}–${DAYS[2].short} 2026` },
-    { icon: icons.mapPin(), label: "Venue", value: SITE.venueShort },
+    { icon: icons.mapPin(), label: "Venue", value: SITE.venueShort, href: SITE.mapsUrl, hint: "Get directions on Google Maps" },
     { icon: icons.trophy(), label: "Prize pool", value: formatINR(SITE.prizePool) },
   ];
   $("#facts").innerHTML = facts
     .map(
-      (f) => `<div class="fact glass">${f.icon}<div style="min-width:0"><dt>${esc(f.label)}</dt><dd class="tabular">${esc(f.value)}</dd></div></div>`,
+      (f) => `<div class="fact glass${f.href ? " fact--link" : ""}">${f.icon}<div style="min-width:0"><dt>${esc(f.label)}</dt><dd class="tabular">${
+        f.href
+          ? `<a href="${esc(f.href)}" target="_blank" rel="noopener noreferrer" title="${esc(f.hint)}">${esc(f.value)}<span class="sr-only">. ${esc(f.hint)} (opens in a new tab)</span></a>`
+          : esc(f.value)
+      }</dd></div>${f.href ? icons.arrowUpRight("icon fact-arrow") : ""}</div>`,
     )
     .join("");
 }
@@ -73,8 +77,17 @@ function renderHackathon() {
   $("#hack-summary").textContent = h.summary;
   $("#hack-facts").innerHTML = `
     <div><dt>Fee</dt><dd class="fee tabular">${formatINR(h.fee)} per person</dd></div>
-    <div><dt>When</dt><dd>${esc(h.dates)}</dd></div>
-    <div><dt>Where</dt><dd>${esc(h.venue)}</dd></div>
+    <div>
+      <dt>When</dt>
+      <dd>${esc(DAYS[h.day].label)}, <span class="tabular">${esc(DAYS[h.day].date)}</span></dd>
+      <dd class="fact-sub tabular">${esc(h.time)}</dd>
+    </div>
+    <div>
+      <dt>Where</dt>
+      <dd>${esc(h.venue)}</dd>
+      <dd class="fact-sub">${esc(SITE.institution)}</dd>
+      <dd><a class="dir-link" href="${esc(SITE.mapsUrl)}" target="_blank" rel="noopener noreferrer">${icons.mapPin()}Get directions${icons.arrowUpRight("icon dir-arrow")}<span class="sr-only"> to ${esc(SITE.institution)} on Google Maps (opens in a new tab)</span></a></dd>
+    </div>
     <div><dt>Rules</dt><dd>${h.rulesUrl ? `<a href="${esc(h.rulesUrl)}" style="text-decoration:underline">Read the rules</a>` : esc(h.rules)}</dd></div>`;
   $("#hack-note").textContent = `You register on your own. ${h.teamNote}`;
   $("#hack-cta").innerHTML = REGISTRATION_OPEN.hackathon
