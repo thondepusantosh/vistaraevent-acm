@@ -208,13 +208,13 @@ export const EVENTS = [
   {
     id: "elevator-pitch",
     pay: "jaya",
-    name: "Elevator Pitch",
+    name: "Rapid Pitch",
     day: 1,
     category: "group",
     mode: "group",
     blurb: "Sell an idea in under a minute.",
     description:
-      "Pitch an idea to the judges in the time an elevator ride takes. Clarity and conviction count more than slides.",
+      "Pitch an idea to the judges in about a minute. Clarity and conviction count more than slides.",
     pricing: { type: "tiered", tier: "group" },
   },
   {
