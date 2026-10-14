@@ -45,13 +45,22 @@ export const CONTACTS = [
   { name: "Teja", role: "Coordinator", phone: "+91 92463 09791" },
 ];
 
-/** Main coordinators for the cultural (non-technical) events. Shown as their
-    own group in the Contact section of the home page. */
-export const CULTURAL_CONTACTS = [
-  { name: "Vinanya", role: "Cultural coordinator", phone: "+91 79971 86178" },
-  { name: "Sai Charan", role: "Cultural coordinator", phone: "+91 93811 74289" },
-  { name: "Hema Sai", role: "Cultural coordinator", phone: "+91 75691 54456" },
-];
+/**
+ * WhatsApp groups. The link is shown only on the confirmation screen, after a
+ * registration has been saved. Day 1 and Day 2 registrations (technical,
+ * non-technical and Craft 24) use `events`; INFUSION26 uses `hackathon`.
+ * Set one to null to hide it.
+ */
+export const WHATSAPP_GROUPS = {
+  events: {
+    name: "Tech and Non-Tech Event Participants",
+    url: "https://chat.whatsapp.com/KsqS3vrfF9G7peo9NPs2e8?s=sw&p=a&mlu=4&ilr=4",
+  },
+  hackathon: {
+    name: "Infusion-26 Hackathon Participants",
+    url: "https://chat.whatsapp.com/KbU28wa2fxOF0e19MUEEcV?s=sw&p=a&mlu=4&ilr=4",
+  },
+};
 
 /** Site credit in the footer of every page. Set to null to hide it. */
 export const CREDIT = {

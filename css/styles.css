@@ -2514,6 +2514,55 @@ legend {
 .confirm-card dd {
   text-align: right;
 }
+/* WhatsApp group invite, shown only after a successful registration. */
+.wa-card {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.875rem;
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  text-align: center;
+}
+.wa-icon {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--success);
+  background: color-mix(in oklab, var(--success) 14%, transparent);
+  box-shadow: 0 0 30px -8px var(--success);
+}
+.wa-icon svg {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+.wa-title {
+  font-weight: 600;
+}
+.wa-body {
+  margin-top: 0.2rem;
+  color: var(--paper-dim);
+  font-size: 0.875rem;
+  text-wrap: pretty;
+}
+.wa-name {
+  color: var(--paper);
+}
+@media (min-width: 640px) {
+  .wa-card {
+    flex-direction: row;
+    padding: 1.125rem 1.25rem;
+    text-align: left;
+  }
+  .wa-text {
+    flex: 1;
+    min-width: 0;
+  }
+}
 .confirm .note {
   margin-top: 1.25rem;
   color: var(--paper-dim);
