@@ -324,6 +324,19 @@ function updateDetail(animate) {
     </div>
     <p class="event-desc">${esc(e.description)}</p>
     <p class="event-price tabular">${esc(priceNote(e))}</p>
+    ${
+      e.coordinators?.length
+        ? `<div class="event-coords">
+            <p class="event-coords-title">Event coordinators</p>
+            <ul>${e.coordinators
+              .map(
+                (c) => `<li><a class="coord" href="tel:${esc(c.phone.replace(/[^\d+]/g, ""))}" aria-label="Call ${esc(c.name)}, ${esc(c.phone)}">
+                  <span class="coord-name">${esc(c.name)}</span><span class="coord-phone tabular">${esc(c.phone.replace(/^\+91\s*/, ""))}</span></a></li>`,
+              )
+              .join("")}</ul>
+          </div>`
+        : ""
+    }
     <p class="event-note${blocked ? " is-blocked" : selected ? " is-selected" : ""}" id="note-${e.id}"${blocked ? ' role="status"' : ""}>
       ${blocked ? esc(s.reason) : selected ? "Added. Tap the tick to remove it." : ""}
     </p>

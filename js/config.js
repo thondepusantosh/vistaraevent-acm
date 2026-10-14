@@ -45,6 +45,14 @@ export const CONTACTS = [
   { name: "Teja", role: "Coordinator", phone: "+91 92463 09791" },
 ];
 
+/** Main coordinators for the cultural (non-technical) events. Shown as their
+    own group in the Contact section of the home page. */
+export const CULTURAL_CONTACTS = [
+  { name: "Vinanya", role: "Cultural coordinator", phone: "+91 79971 86178" },
+  { name: "Sai Charan", role: "Cultural coordinator", phone: "+91 93811 74289" },
+  { name: "Hema Sai", role: "Cultural coordinator", phone: "+91 75691 54456" },
+];
+
 /** Site credit in the footer of every page. Set to null to hide it. */
 export const CREDIT = {
   name: "Santosh Sri Manvik Thondepu",
@@ -104,6 +112,8 @@ export const HACKATHON = {
  *           picks the payment QR codes; events paid to different accounts
  *           can't share one registration.
  * mode:     whether one person or a team takes part (solo | group)
+ * coordinators: optional [{ name, phone }], shown on the event's card with
+ *           tap-to-call links.
  * pricing:  { type: "tiered", tier: "solo" | "group" | "cultural" } priced by
  *           how many events of that tier are picked (see TIER_PRICES), or
  *           { type: "flat", amount }
@@ -157,6 +167,10 @@ export const EVENTS = [
     blurb: "Solve a scrambled 3×3, fast.",
     description: "A speed-solving round on a scrambled 3×3 cube. Bring your own cube if you have one you trust.",
     pricing: { type: "tiered", tier: "cultural" },
+    coordinators: [
+      { name: "Hindu", phone: "+91 96183 90597" },
+      { name: "Meenakshi", phone: "+91 88974 65497" },
+    ],
   },
   {
     id: "gen-ai-tag-team",
@@ -218,6 +232,10 @@ export const EVENTS = [
     blurb: "A solo vocal performance.",
     description: "Sing a piece of your choice, in any language and any genre. Just you and the stage.",
     pricing: { type: "tiered", tier: "cultural" },
+    coordinators: [
+      { name: "Niyati", phone: "+91 99599 49111" },
+      { name: "Prudhviraj", phone: "+91 90323 48238" },
+    ],
   },
   {
     id: "instrumental",
@@ -229,6 +247,11 @@ export const EVENTS = [
     blurb: "Play a solo piece on your instrument.",
     description: "Perform a solo piece on the instrument of your choice. Bring your own instrument.",
     pricing: { type: "tiered", tier: "cultural" },
+    coordinators: [
+      { name: "Sree Harshitha", phone: "+91 95509 28783" },
+      { name: "Uma Saileela", phone: "+91 70320 16970" },
+      { name: "Mehru", phone: "+91 93460 08138" },
+    ],
   },
   {
     id: "meme-war",
@@ -240,6 +263,10 @@ export const EVENTS = [
     blurb: "Sharpest meme on the prompt wins.",
     description: "Prompts are revealed on the spot. Make the funniest, sharpest meme you can before time is up.",
     pricing: { type: "tiered", tier: "cultural" },
+    coordinators: [
+      { name: "Sohan", phone: "+91 88975 42236" },
+      { name: "Vamsi Krishna", phone: "+91 81256 05664" },
+    ],
   },
   {
     id: "five-word-trap",
@@ -251,6 +278,10 @@ export const EVENTS = [
     blurb: "Verbal ping-pong. Don't fall in.",
     description: "Verbal ping-pong between teams. Keep the rally going and stay clear of the trap words.",
     pricing: { type: "tiered", tier: "group" },
+    coordinators: [
+      { name: "Ayesh", phone: "+91 80080 64069" },
+      { name: "Harsha Vardhan", phone: "+91 97034 84117" },
+    ],
   },
   {
     id: "dancing",
@@ -262,6 +293,11 @@ export const EVENTS = [
     blurb: "Take the stage as a crew.",
     description: "A group dance performance in a style of your choice. Full rules will be shared before the fest.",
     pricing: { type: "tiered", tier: "cultural" },
+    coordinators: [
+      { name: "Manikanta", phone: "+91 92814 68867" },
+      { name: "Tanuja", phone: "+91 98493 36272" },
+      { name: "Deekshitha", phone: "+91 73370 02825" },
+    ],
   },
   {
     id: "storytelling",

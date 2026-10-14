@@ -1,7 +1,7 @@
 // Home page: fills the hero facts, day cards, INFUSION26 section and
 // contacts from js/config.js, and starts the kinetic grid background.
 
-import { CONTACTS, DAYS, HACKATHON, REGISTRATION_OPEN, SITE } from "./config.js";
+import { CONTACTS, CULTURAL_CONTACTS, DAYS, HACKATHON, REGISTRATION_OPEN, SITE } from "./config.js";
 import { BUCKET_LABEL, BUCKETS, bucketOf, eventsForDay, formatINR } from "./rules.js";
 import { esc, icons } from "./ui/icons.js";
 import { mountKineticGrid } from "./ui/kinetic-grid.js";
@@ -108,14 +108,24 @@ function renderHackathon() {
 }
 
 function renderContacts() {
-  $("#contacts").innerHTML = CONTACTS.map(
-    (c) => `
+  const card = (c) => `
     <li class="contact glass reveal">
       <p class="contact-name">${esc(c.name || "Organizing team")}</p>
       ${c.role ? `<p class="contact-role">${esc(c.role)}</p>` : ""}
       <a class="contact-phone tabular" href="tel:${esc(c.phone.replace(/\s/g, ""))}">${esc(c.phone)}</a>
-    </li>`,
-  ).join("");
+    </li>`;
+  const groups = [
+    { title: "Fest coordinators", people: CONTACTS },
+    { title: "Cultural events", people: CULTURAL_CONTACTS },
+  ].filter((g) => g.people.length);
+  $("#contacts").innerHTML = groups
+    .map(
+      (g) => `<div class="contacts-group">
+        ${groups.length > 1 ? `<h3 class="contacts-title">${esc(g.title)}</h3>` : ""}
+        <ul class="contacts">${g.people.map(card).join("")}</ul>
+      </div>`,
+    )
+    .join("");
   $("#footer-note").textContent = `${SITE.name} 2026 is organized by the ${SITE.organizer}, ${SITE.institution} (${SITE.institutionNote}).`;
 }
 
