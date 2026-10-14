@@ -272,7 +272,7 @@ export const EVENTS = [
     mode: "solo",
     blurb: "One voice, one original story.",
     description: "Tell an original story on stage with nothing but your voice and your timing.",
-    pricing: { type: "flat", amount: 500 },
+    pricing: { type: "flat", amount: 250 },
   },
   {
     id: "short-film",
@@ -305,9 +305,8 @@ export const PAYEES = {
 export const QR_CODES = {
   jaya: {
     150: "qr/jaya-150.jpg", // 1 technical solo event, or Best Shot
-    250: "qr/jaya-250.jpg", // 2 technical solo events, or 1 group event
+    250: "qr/jaya-250.jpg", // 2 technical solo events, 1 group event, or Storytelling
     350: "qr/jaya-350.jpg", // 2 group events
-    500: "qr/jaya-500.jpg", // Storytelling
     700: "qr/jaya-700.jpg", // Short Film
   },
   vinanya: {
