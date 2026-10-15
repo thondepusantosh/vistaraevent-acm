@@ -1,8 +1,9 @@
 // Home page: fills the hero facts, day cards, INFUSION26 section and
 // contacts from js/config.js, and starts the kinetic grid background.
 
-import { CONTACTS, DAYS, HACKATHON, REGISTRATION_OPEN, SITE } from "./config.js";
+import { ANNOUNCEMENT, CONTACTS, DAYS, HACKATHON, REGISTRATION_OPEN, SITE } from "./config.js";
 import { BUCKET_LABEL, BUCKETS, bucketOf, eventsForDay, formatINR } from "./rules.js";
+import { noticePanel, updateBlock } from "./ui/announcement.js";
 import { esc, icons } from "./ui/icons.js";
 import { mountKineticGrid } from "./ui/kinetic-grid.js";
 import { initMetalButtons } from "./ui/metal-button.js";
@@ -18,7 +19,11 @@ function renderHero() {
     .join("");
   $("#tagline").setAttribute("aria-label", SITE.tagline.join(", "));
   const facts = [
-    { icon: icons.calendar(), label: "Dates", value: `${DAYS[1].short}–${DAYS[2].short} 2026` },
+    {
+      icon: icons.calendar(),
+      label: "Dates",
+      value: ANNOUNCEMENT.active ? ANNOUNCEMENT.dateLabel : `${DAYS[1].short}–${DAYS[2].short} 2026`,
+    },
     { icon: icons.mapPin(), label: "Venue", value: SITE.venueShort, href: SITE.mapsUrl, hint: "Get directions on Google Maps" },
     { icon: icons.trophy(), label: "Prize pool", value: formatINR(SITE.prizePool) },
   ];
@@ -42,7 +47,11 @@ function renderDays() {
       const body = `
         <div class="day-card-head">
           <h3>${esc(info.label)}</h3>
-          <p class="day-card-date">${esc(info.weekday)}<br><strong class="tabular">${esc(info.date)}</strong></p>
+          <p class="day-card-date">${
+            ANNOUNCEMENT.active
+              ? `New date<br><strong>${esc(ANNOUNCEMENT.dateLabel.toLowerCase())}</strong>`
+              : `${esc(info.weekday)}<br><strong class="tabular">${esc(info.date)}</strong>`
+          }</p>
         </div>
         <dl>
           ${groups
@@ -52,11 +61,13 @@ function renderDays() {
         ${
           open
             ? `<span class="metal-btn btn-lg">Register for ${esc(info.label)} ${icons.arrowUpRight()}</span>`
-            : `<span class="muted">Registrations closed</span>`
+            : ANNOUNCEMENT.active
+              ? `<span class="paused-pill"><span class="paused-dot" aria-hidden="true"></span>Registrations paused</span>`
+              : `<span class="muted">Registrations closed</span>`
         }`;
       return open
         ? `<a class="day-card glass reveal" href="day-${day}.html">${body}</a>`
-        : `<div class="day-card glass reveal" style="opacity:.7">${body}</div>`;
+        : `<div class="day-card glass reveal is-paused">${body}</div>`;
     })
     .join("");
 
@@ -79,8 +90,12 @@ function renderHackathon() {
     <div><dt>Fee</dt><dd class="fee tabular">${formatINR(h.fee)} per person</dd></div>
     <div>
       <dt>When</dt>
-      <dd>${esc(DAYS[h.day].label)}, <span class="tabular">${esc(DAYS[h.day].date)}</span></dd>
-      <dd class="fact-sub tabular">${esc(h.time)}</dd>
+      ${
+        ANNOUNCEMENT.active
+          ? `<dd>${esc(DAYS[h.day].label)}</dd><dd class="fact-sub">New date ${esc(ANNOUNCEMENT.dateLabel.toLowerCase())}</dd>`
+          : `<dd>${esc(DAYS[h.day].label)}, <span class="tabular">${esc(DAYS[h.day].date)}</span></dd>
+      <dd class="fact-sub tabular">${esc(h.time)}</dd>`
+      }
     </div>
     <div>
       <dt>Where</dt>
@@ -92,7 +107,9 @@ function renderHackathon() {
   $("#hack-note").textContent = `You register on your own. ${h.teamNote}`;
   $("#hack-cta").innerHTML = REGISTRATION_OPEN.hackathon
     ? `<a class="metal-btn btn-xl" href="infusion26.html">Register for ${esc(h.name)}</a>`
-    : `<p class="muted">Registrations for ${esc(h.name)} are closed.</p>`;
+    : ANNOUNCEMENT.active
+      ? `<span class="paused-pill"><span class="paused-dot" aria-hidden="true"></span>Registrations paused until the new dates</span>`
+      : `<p class="muted">Registrations for ${esc(h.name)} are closed.</p>`;
   $("#timeline").innerHTML = h.steps
     .map(
       (s, i) => `
@@ -144,7 +161,29 @@ function revealOnScroll() {
 
 mountNav();
 mountFooter();
+/** While postponed: the poster's message in the hero, the full announcement below it. */
+function renderAnnouncement() {
+  if (!ANNOUNCEMENT.active) return;
+  $("#tagline").hidden = true;
+  const update = $("#hero-update");
+  update.innerHTML = updateBlock();
+  update.hidden = false;
+  document.querySelector(".hero-ctas").innerHTML = `
+    <a class="metal-btn btn-xl" href="#announcement">Read the announcement</a>
+    <a class="metal-btn metal-btn--secondary btn-xl" href="#days">Explore the events</a>`;
+  const hint = document.querySelector(".scroll-hint");
+  hint.href = "#announcement";
+  hint.setAttribute("aria-label", "Scroll to the announcement");
+  $("#announcement-body").innerHTML = noticePanel();
+  $("#announcement").hidden = false;
+  // The days section can't invite registration while it's paused.
+  $("#days-title").textContent = "The events";
+  $("#days .lead").textContent =
+    "Here's what's lined up for each day. Registrations reopen once the new dates are announced.";
+}
+
 renderHero();
+renderAnnouncement();
 renderDays();
 renderHackathon();
 renderContacts();

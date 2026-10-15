@@ -8,7 +8,17 @@
 // the other buckets' picks are still there. Progress, minus the screenshot,
 // survives a page refresh.
 
-import { APPS_SCRIPT_URL, DAYS, GROUP_TEAM_SIZES, HACKATHON, REGISTRATION_OPEN, SITE, TIER_PRICES, WHATSAPP_GROUPS } from "./config.js";
+import {
+  ANNOUNCEMENT,
+  APPS_SCRIPT_URL,
+  DAYS,
+  GROUP_TEAM_SIZES,
+  HACKATHON,
+  REGISTRATION_OPEN,
+  SITE,
+  TIER_PRICES,
+  WHATSAPP_GROUPS,
+} from "./config.js";
 import {
   BUCKETS,
   BUCKET_LABEL,
@@ -34,6 +44,7 @@ import {
   validateDetails,
   validateUpi,
 } from "./rules.js";
+import { noticePanel, updateBlock } from "./ui/announcement.js";
 import { ImageReadError, compressImage } from "./ui/compress-image.js";
 import { esc, icons } from "./ui/icons.js";
 import { mountIceShards } from "./ui/ice-shards.js";
@@ -150,7 +161,17 @@ function render() {
   traySlot.innerHTML = "";
 
   if (!open) {
-    flowEl.innerHTML = `<div class="closed"><p style="font-size:1.125rem">Registrations for this are closed.</p><a href="index.html">Back to home</a></div>`;
+    flowEl.innerHTML = ANNOUNCEMENT.active
+      ? `<div class="paused step-in">
+          ${updateBlock()}
+          <p class="paused-note">Registrations are paused until the new dates are announced.</p>
+          ${noticePanel({ poster: false })}
+          <div class="paused-actions">
+            <a class="metal-btn btn-lg" href="index.html#announcement">Read the full update</a>
+            <a class="metal-btn metal-btn--secondary btn-lg" href="index.html">Back to home</a>
+          </div>
+        </div>`
+      : `<div class="closed"><p style="font-size:1.125rem">Registrations for this are closed.</p><a href="index.html">Back to home</a></div>`;
     return;
   }
   if (state.step === "select") return renderSelect();
@@ -930,7 +951,11 @@ document.addEventListener("click", async (e) => {
 mountNav();
 mountFooter();
 document.getElementById("page-title").textContent = isDay ? DAYS[day].label : HACKATHON.name;
-document.getElementById("page-sub").innerHTML = isDay
+document.getElementById("page-sub").innerHTML = ANNOUNCEMENT.active
+  ? isDay
+    ? `New date <span style="color:var(--paper)">${esc(ANNOUNCEMENT.dateLabel.toLowerCase())}</span>`
+    : `${esc(HACKATHON.tagline)} New date <span style="color:var(--paper)">${esc(ANNOUNCEMENT.dateLabel.toLowerCase())}</span>.`
+  : isDay
   ? `${esc(DAYS[day].weekday)}, <span class="tabular" style="color:var(--paper)">${esc(DAYS[day].date)}</span>`
   : `${esc(HACKATHON.tagline)} <span class="tabular" style="color:var(--paper)">${formatINR(HACKATHON.fee)}</span> per person.
      <span class="page-sub-line tabular">${esc(DAYS[HACKATHON.day].label)}, ${esc(DAYS[HACKATHON.day].date)} · ${esc(HACKATHON.time)} · ${esc(HACKATHON.venue)}

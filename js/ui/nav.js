@@ -5,7 +5,7 @@
 // Each page has <header class="site-header" id="site-nav"></header> and
 // <body data-page="home | day-1 | day-2 | infusion26">.
 
-import { HACKATHON, SITE } from "../config.js";
+import { ANNOUNCEMENT, HACKATHON, SITE } from "../config.js";
 import { esc, icons } from "./icons.js";
 
 const LINKS = [
@@ -31,7 +31,11 @@ export function mountNav() {
           ${LINKS.map((l) => `<li><a class="nav-link" href="${l.href}"${current(l)}>${esc(l.label)}</a></li>`).join("")}
         </ul>
         <div class="nav-actions">
-          <a class="metal-btn btn-sm nav-register" href="index.html#days">Register</a>
+          ${
+            ANNOUNCEMENT.active
+              ? `<a class="metal-btn btn-sm nav-register" href="index.html#announcement">Update</a>`
+              : `<a class="metal-btn btn-sm nav-register" href="index.html#days">Register</a>`
+          }
           <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
             ${icons.menu("icon-menu")}${icons.x("icon-close")}
           </button>
@@ -44,7 +48,11 @@ export function mountNav() {
               (l, i) =>
                 `<li><a class="nav-menu-link" style="--i:${i}" href="${l.href}"${current(l)} tabindex="-1">${esc(l.label)}</a></li>`,
             ).join("")}
-            <li><a class="metal-btn btn-lg btn-block" href="index.html#days" tabindex="-1">Register now</a></li>
+            <li>${
+              ANNOUNCEMENT.active
+                ? `<a class="metal-btn btn-lg btn-block" href="index.html#announcement" tabindex="-1">Read the update</a>`
+                : `<a class="metal-btn btn-lg btn-block" href="index.html#days" tabindex="-1">Register now</a>`
+            }</li>
           </ul>
         </div>
       </div>

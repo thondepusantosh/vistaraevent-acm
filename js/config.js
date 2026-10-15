@@ -34,8 +34,37 @@ export const DAYS = {
   2: { label: "Day 2", date: "17 October 2026", short: "17 Oct", weekday: "Saturday" },
 };
 
-/** Flip to false to close registrations. Apps Script has its own switch too. */
-export const REGISTRATION_OPEN = { day1: true, day2: true, hackathon: true };
+/** Flip to false to close registrations. Apps Script has its own switch too
+    (SETTINGS.REGISTRATIONS_OPEN in Code.gs). Closed while postponed. */
+export const REGISTRATION_OPEN = { day1: false, day2: false, hackathon: false };
+
+/**
+ * Vistara 2026 is postponed. While `active` is true the site shows this
+ * announcement (home page hero and its own section, and in place of the
+ * registration forms), dates read "to be announced", and the Register
+ * buttons point to the announcement. When new dates are set: update DAYS,
+ * set `active` to false, and reopen REGISTRATION_OPEN (and the same switch
+ * in Code.gs).
+ */
+export const ANNOUNCEMENT = {
+  active: true,
+  // From the poster
+  kicker: "An update",
+  headline: "Great things deserve the right moment.",
+  lines: ["The vision remains.", "The dates change."],
+  badge: "Vistara — Postponed",
+  soon: "New dates coming soon.",
+  signoff: "ACM Student Chapter | SAHE",
+  poster: "images/vistara-postponed.webp",
+  // The official announcement
+  title: "Announcement: Vistara 2026",
+  body: [
+    "The ACM Vistara 2026 event has been postponed due to unavoidable circumstances. We kindly request all participants and student organizers to understand the situation and cooperate with us. The revised date will be announced soon.",
+    "We regret any inconvenience caused and appreciate your patience and support. Thank you for your understanding.",
+  ],
+  /** Shown wherever a date would be. */
+  dateLabel: "To be announced",
+};
 
 /** Organizer phone numbers shown in the Contact section of the home page. */
 export const CONTACTS = [

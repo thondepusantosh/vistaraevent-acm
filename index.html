@@ -6,7 +6,7 @@
     <title>Vistara 2026, Siddhartha Academy of Higher Education</title>
     <meta
       name="description"
-      content="Register for Vistara, the two-day fest by the ACM Student Chapter at Siddhartha Academy of Higher Education, 16 and 17 October 2026. Technical, non-technical and Craft 24 events, plus the INFUSION26 hackathon."
+      content="Vistara 2026, the two-day fest by the ACM Student Chapter at Siddhartha Academy of Higher Education, has been postponed. New dates coming soon. Technical, non-technical and Craft 24 events, plus the INFUSION26 hackathon."
     />
     <meta name="theme-color" content="#05070d" />
     <link rel="icon" href="favicon.ico" />
@@ -33,6 +33,9 @@
 
           <p class="tagline rise" id="tagline" style="--d: 0.75s"></p>
 
+          <!-- "Postponed" update from the poster, shown while ANNOUNCEMENT.active -->
+          <div class="rise" id="hero-update" style="--d: 0.6s" hidden></div>
+
           <dl class="facts rise" id="facts" style="--d: 0.9s"></dl>
 
           <div class="hero-ctas rise" style="--d: 1.05s">
@@ -43,6 +46,11 @@
         <a class="scroll-hint rise" href="#days" aria-label="Scroll to the days" style="--d: 1.6s">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14" /><path d="m19 12-7 7-7-7" /></svg>
         </a>
+      </section>
+
+      <!-- The official announcement and poster, shown while ANNOUNCEMENT.active -->
+      <section class="section announce" id="announcement" aria-label="Announcement" hidden>
+        <div class="container" id="announcement-body"></div>
       </section>
 
       <section class="section" id="days" aria-labelledby="days-title">
