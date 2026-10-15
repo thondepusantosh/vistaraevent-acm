@@ -2,12 +2,13 @@
 // ANNOUNCEMENT in js/config.js.
 //
 //   updateBlock()   the poster's message: kicker, headline, two lines, the
-//                   "Vistara — Postponed" badge and "New dates coming soon".
-//   noticePanel()   the official announcement text, the sign-off and the
-//                   poster image, as a glass panel.
+//                   "Vistara — Postponed" badge, "New dates coming soon" and
+//                   the full-refund notice.
+//   noticePanel()   the official announcement text with the refund notice
+//                   highlighted, the sign-off and the poster image.
 
 import { ANNOUNCEMENT as A } from "../config.js";
-import { esc } from "./icons.js";
+import { esc, icons } from "./icons.js";
 
 export function updateBlock({ headingLevel = 2 } = {}) {
   const h = `h${headingLevel}`;
@@ -18,6 +19,7 @@ export function updateBlock({ headingLevel = 2 } = {}) {
     <p class="update-lines">${A.lines.map((l) => `<span>${esc(l)}</span>`).join(" ")}</p>
     <p class="update-badge">${esc(A.badge)}</p>
     <p class="update-soon">${esc(A.soon)}</p>
+    ${A.refund ? `<p class="refund-callout"><span class="refund-icon" aria-hidden="true">${icons.check()}</span><span>${esc(A.refund)}</span></p>` : ""}
   </div>`;
 }
 
@@ -28,6 +30,11 @@ export function noticePanel({ headingLevel = 2, poster = true } = {}) {
       <p class="notice-kicker"><span class="notice-dot" aria-hidden="true"></span>Postponed</p>
       <${h} class="notice-title">${esc(A.title)}</${h}>
       ${A.body.map((p) => `<p class="notice-body">${esc(p)}</p>`).join("")}
+      ${
+        A.refund
+          ? `<p class="notice-refund"><span class="refund-icon" aria-hidden="true">${icons.check()}</span><strong>${esc(A.refund)}</strong></p>`
+          : ""
+      }
       <p class="notice-signoff">${esc(A.signoff)}</p>
     </article>
     ${

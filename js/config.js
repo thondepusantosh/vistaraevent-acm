@@ -62,6 +62,8 @@ export const ANNOUNCEMENT = {
     "The ACM Vistara 2026 event has been postponed due to unavoidable circumstances. We kindly request all participants and student organizers to understand the situation and cooperate with us. The revised date will be announced soon.",
     "We regret any inconvenience caused and appreciate your patience and support. Thank you for your understanding.",
   ],
+  /** Refund notice. The most important line: shown in the hero update and highlighted in the announcement. */
+  refund: "Participants who have paid the event registration fee will receive a full refund.",
   /** Shown wherever a date would be. */
   dateLabel: "To be announced",
 };
